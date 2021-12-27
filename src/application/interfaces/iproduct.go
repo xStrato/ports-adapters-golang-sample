@@ -1,7 +1,6 @@
 package interfaces
 
-type Ecommercer interface {
-	GetID() string
+type IProduct interface {
 	GetName() string
 	GetStatus() string
 	GetPrice() float64
