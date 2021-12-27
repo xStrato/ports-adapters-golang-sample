@@ -3,6 +3,6 @@ package constants
 type Status string
 
 const (
-	DISABLE Status = "Disable"
-	ENABLE  Status = "Enable"
+	DISABLED Status = "Disabled"
+	ENABLED  Status = "Enabled"
 )

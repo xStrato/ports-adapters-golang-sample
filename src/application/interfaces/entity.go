@@ -1,7 +1,7 @@
 package interfaces
 
 type Entity interface {
-	IsValid() bool
+	IsValid() (bool, error)
 	Enable() error
 	Disable() error
 }
