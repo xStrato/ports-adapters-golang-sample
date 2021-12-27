@@ -7,6 +7,7 @@ import (
 	uuid "github.com/satori/go.uuid"
 	"github.com/stretchr/testify/require"
 	mocks "github.com/xStrato/ports-adapters-go-sample/mocks"
+	"github.com/xStrato/ports-adapters-go-sample/src/application/constants"
 	"github.com/xStrato/ports-adapters-go-sample/src/application/entities"
 	"github.com/xStrato/ports-adapters-go-sample/src/application/services"
 )
@@ -37,5 +38,29 @@ func TestProductService(t *testing.T) {
 		//Assert
 		require.Nil(t, err)
 		require.Equal(t, product, result)
+	})
+
+	t.Run("Enable_ValidProduct_ShouldReturnNil", func(t *testing.T) {
+		//Arrange
+		repository.EXPECT().Save(gomock.Any()).Return(product, nil).AnyTimes()
+		//Act
+		service := services.NewProductService(repository)
+		result, err := service.Enable(product)
+		//Assert
+		require.Nil(t, err)
+		require.Equal(t, product, result)
+		require.Equal(t, product.GetStatus(), constants.ENABLED)
+	})
+
+	t.Run("Disable_ValidProduct_ShouldReturnNil", func(t *testing.T) {
+		//Arrange
+		repository.EXPECT().Save(gomock.Any()).Return(product, nil).AnyTimes()
+		//Act
+		service := services.NewProductService(repository)
+		product := entities.NewProduct("PS4", 0)
+		_, err := service.Disable(product)
+		//Assert
+		require.Nil(t, err)
+		require.Equal(t, product.GetStatus(), constants.DISABLED)
 	})
 }

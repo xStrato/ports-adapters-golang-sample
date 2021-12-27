@@ -69,8 +69,8 @@ func (p *Product) GetName() string {
 	return p.name
 }
 
-func (p *Product) GetStatus() string {
-	return string(p.status)
+func (p *Product) GetStatus() constants.Status {
+	return p.status
 }
 
 func (p *Product) GetPrice() float32 {

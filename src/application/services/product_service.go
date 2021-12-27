@@ -35,3 +35,26 @@ func (s *ProductService) Create(name string, price float32) (interfaces.IProduct
 	}
 	return result, nil
 }
+
+func (s *ProductService) Enable(product interfaces.IProduct) (interfaces.IProduct, error) {
+	if err := product.Enable(); err != nil {
+		return &entities.Product{}, err
+	}
+
+	result, err := s.repository.Save(product)
+	if err != nil {
+		return &entities.Product{}, err
+	}
+	return result, nil
+}
+
+func (s *ProductService) Disable(product interfaces.IProduct) (interfaces.IProduct, error) {
+	if err := product.Disable(); err != nil {
+		return &entities.Product{}, err
+	}
+	result, err := s.repository.Save(product)
+	if err != nil {
+		return &entities.Product{}, err
+	}
+	return result, nil
+}
