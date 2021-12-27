@@ -17,7 +17,7 @@ func NewProductRepository(db *sql.DB) *ProductRepository {
 
 func (r *ProductRepository) Get(id string) (interfaces.IProduct, error) {
 	product := entities.Product{}
-	stmt, err := r.DB.Prepare("select name from products where id=?")
+	stmt, err := r.DB.Prepare("select * from products where id=?")
 	if err != nil {
 		return nil, err
 	}

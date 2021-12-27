@@ -15,7 +15,6 @@ var Db *sql.DB
 
 func TestProductRepository(t *testing.T) {
 	setUp()
-	defer Db.Close()
 
 	t.Run("Get_ValidProduct_ShouldReturnNil", func(t *testing.T) {
 		//Arrange
@@ -28,13 +27,11 @@ func TestProductRepository(t *testing.T) {
 		require.Equal(t, 0.0, product.GetPrice())
 		require.Equal(t, constants.DISABLED, product.GetStatus())
 	})
+	Db.Close()
 }
 
 func setUp() {
-	Db, err := sql.Open("sqlite3", ":memory:")
-	if err != nil {
-		log.Fatalln(err)
-	}
+	Db, _ = sql.Open("sqlite3", ":memory:")
 	createTable(Db)
 	createProducts(Db)
 }
