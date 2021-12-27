@@ -2,7 +2,7 @@
 // Source: src/application/interfaces/iproduct_repository.go
 
 // Package mock_interfaces is a generated GoMock package.
-package mock_interfaces
+package mocks
 
 import (
 	reflect "reflect"

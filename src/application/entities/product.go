@@ -13,7 +13,7 @@ func init() {
 }
 
 type Product struct {
-	id     string           `valid:"uuidv4"`
+	id     string           `valid:"uuidv4", `
 	name   string           `valid:"required"`
 	price  float32          `valid:"float,optional"`
 	status constants.Status `valid:"required"`
@@ -25,6 +25,14 @@ func NewProduct(name string, price float32) *Product {
 		name:   name,
 		price:  price,
 		status: constants.DISABLED,
+	}
+}
+func NewProductFrom(id, name, status string, price float32) *Product {
+	return &Product{
+		id:     id,
+		name:   name,
+		price:  price,
+		status: constants.Status(status),
 	}
 }
 
