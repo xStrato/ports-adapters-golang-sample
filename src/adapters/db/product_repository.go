@@ -11,9 +11,13 @@ type ProductRepository struct {
 	*sql.DB
 }
 
+func NewProductRepository(db *sql.DB) *ProductRepository {
+	return &ProductRepository{db}
+}
+
 func (r *ProductRepository) Get(id string) (interfaces.IProduct, error) {
-	var product entities.Product
-	stmt, err := r.DB.Prepare("select * from products where id=?")
+	product := entities.Product{}
+	stmt, err := r.DB.Prepare("select name from products where id=?")
 	if err != nil {
 		return nil, err
 	}
