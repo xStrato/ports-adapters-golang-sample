@@ -12,8 +12,8 @@ type Product struct {
 	Status string  `json:"status"`
 }
 
-func NewProduct() *Product {
-	return &Product{}
+func NewProduct(id, name, status string, price float32) *Product {
+	return &Product{id, name, price, status}
 }
 func (p *Product) Bind(product interfaces.IProduct) (interfaces.IProduct, error) {
 	binded := entities.NewProductFrom(p.Id, p.Name, p.Status, p.Price)

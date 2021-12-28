@@ -19,13 +19,12 @@ func getProduct(s interfaces.IProductService) http.Handler {
 		w.Header().Set("Content-Type", "application/json")
 		vars := mux.Vars(r)
 		p, err := s.Get(vars["id"])
-		product, _ := dtos.NewProduct().Bind()
-
+		newProduct := dtos.NewProduct(p.GetID(), p.GetName(), string(p.GetStatus()), p.GetPrice())
 		if err != nil {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
-		err = json.NewEncoder(w).Encode(product)
+		err = json.NewEncoder(w).Encode(newProduct)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
