@@ -8,6 +8,7 @@ import (
 	"github.com/urfave/negroni"
 	"github.com/xStrato/ports-adapters-go-sample/src/adapters/dtos"
 	"github.com/xStrato/ports-adapters-go-sample/src/application/interfaces"
+	"golang.org/x/tools/go/analysis/passes/nilfunc"
 )
 
 func MakeProductHandler(r *mux.Router, n *negroni.Negroni, s interfaces.IProductService) {
@@ -30,4 +31,31 @@ func getProduct(s interfaces.IProductService) http.Handler {
 			return
 		}
 	})
+}
+
+func createProduct(s interfaces.IProductService)  http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		var pDto dtos.Product
+		err := json.NewDecoder(r.Body).Decode(&pDto)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write(jsonError(err.Error()))
+			return
+		}
+
+		p, err := s.Create(pDto.Name, pDto.Price)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write(jsonError(err.Error()))
+			return
+		}
+
+		err := json.NewEncoder(w).Encode(p)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write(jsonError(err.Error()))
+			return
+		}
+	}
 }
