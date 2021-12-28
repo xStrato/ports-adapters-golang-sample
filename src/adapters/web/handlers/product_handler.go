@@ -43,14 +43,12 @@ func createProduct(s interfaces.IProductService) http.Handler {
 			w.Write(jsonError(err.Error()))
 			return
 		}
-
 		p, err := s.Create(pDto.Name, pDto.Price)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write(jsonError(err.Error()))
 			return
 		}
-
 		err = json.NewEncoder(w).Encode(p)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
