@@ -5,12 +5,20 @@ Copyright © 2021 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"database/sql"
 	"os"
+
+	_ "github.com/mattn/go-sqlite3"
+
+	"github.com/xStrato/ports-adapters-go-sample/src/adapters/db"
+	"github.com/xStrato/ports-adapters-go-sample/src/application/services"
 
 	"github.com/spf13/cobra"
 )
 
-
+var Db, _ = sql.Open("sqlite3", "/Users/xstrato/Documents/GoLang/ports-adapters-go-sample/app.db")
+var productRepo = db.NewProductRepository(Db)
+var productService = services.NewProductService(productRepo)
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -47,5 +55,3 @@ func init() {
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
-
-
