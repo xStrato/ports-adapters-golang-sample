@@ -6,6 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/urfave/negroni"
+	"github.com/xStrato/ports-adapters-go-sample/src/adapters/dtos"
 	"github.com/xStrato/ports-adapters-go-sample/src/application/interfaces"
 )
 
@@ -18,12 +19,7 @@ func getProduct(s interfaces.IProductService) http.Handler {
 		w.Header().Set("Content-Type", "application/json")
 		vars := mux.Vars(r)
 		p, err := s.Get(vars["id"])
-		product := struct {
-			Id     string  `json:"id"`
-			Name   string  `json:"name"`
-			Price  float32 `json:"price"`
-			Status string  `json:"status"`
-		}{p.GetID(), p.GetName(), p.GetPrice(), string(p.GetStatus())}
+		product, _ := dtos.NewProduct().Bind()
 
 		if err != nil {
 			w.WriteHeader(http.StatusNotFound)
